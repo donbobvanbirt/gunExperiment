@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+  <script src="https://rawgit.com/amark/gun/e9e8804de8249f58340e3810721cd5c2a0f78fcd/gun.js"></script>
+</head>
+<body>
+    <h1>Gun Chat</h1>
+
+    <table class="table">
+      <thead>
+        <th>Name</th>
+        <th>Message</th>
+        <th>Time</th>
+      </thead>
+      <tbody id="tableBody">
+
+      </tbody>
+    </table>
+
+    <form>
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" class="form-control" />
+        <label for="message">Message:</label>
+        <textarea class="form-control" rows="3"></textarea>
+        <button class="btn btn-primary">Send</button>
+      </div>
+    </form>
+
+    <script>
+        var gun = Gun().get('test1');
+        $('form').on('submit', function(event) {
+            event.preventDefault();
+            var message = {};
+            message.name = $('form').find('input').val();
+            message.message = $('form').find('textarea').val();
+            message.time = new Date().getTime();
+            // console.log('message in submit:', message);
+            gun.set(message);
+            $('form').find('textarea').val("");
+        });
+        gun.map().val(function(message, id) {
+            // console.log('message.message:', message.message);
+            if (!message) {
+                return;
+            }
+            $('#tableBody').append( `<tr><td>${message.name}</td><td>${message.message}</td><td>${message.time}</td></tr>` );
+        });
+    </script>
+</body>
+
+</html>
