@@ -30,7 +30,8 @@
     </form>
 
     <script>
-        var gun = Gun().get('test1');
+        // var gun = Gun().get('test1');
+        var gun = Gun('https://gunjs.herokuapp.com/gun').get('tutorial/chat/app');
         $('form').on('submit', function(event) {
             event.preventDefault();
             var message = {};
@@ -46,7 +47,9 @@
             if (!message) {
                 return;
             }
-            $('#tableBody').append( `<tr><td>${message.name}</td><td>${message.message}</td><td>${message.time}</td></tr>` );
+            if(message.message) {
+              $('#tableBody').append( `<tr><td>${message.name}</td><td>${message.message}</td><td>${message.time}</td></tr>` );
+            }
         });
     </script>
 </body>
